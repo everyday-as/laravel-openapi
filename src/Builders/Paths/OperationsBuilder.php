@@ -7,12 +7,14 @@ use GoldSpecDigital\ObjectOrientedOAS\Objects\Operation;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Vyuldashev\LaravelOpenApi\Attributes\Operation as OperationAttribute;
+use Vyuldashev\LaravelOpenApi\Attributes\Response as ResponseAttribute;
 use Vyuldashev\LaravelOpenApi\Builders\ExtensionsBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\Paths\Operation\CallbacksBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\Paths\Operation\ParametersBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\Paths\Operation\RequestBodyBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\Paths\Operation\ResponsesBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\Paths\Operation\SecurityBuilder;
+use Vyuldashev\LaravelOpenApi\Exceptions\UnimplementedException;
 use Vyuldashev\LaravelOpenApi\RouteInformation;
 
 class OperationsBuilder
@@ -52,6 +54,23 @@ class OperationsBuilder
 
         /** @var RouteInformation[] $routes */
         foreach ($routes as $route) {
+            $route->actionAttributes = $route->actionAttributes->merge(
+                $route->controllerAttributes->diffUsing(
+                    $route->actionAttributes,
+                    function (object $attribute, object $attribute2) {
+                        if (get_class($attribute) !== get_class($attribute2)) {
+                            return get_class($attribute) <=> get_class($attribute2);
+                        }
+
+                        return match (get_class($attribute)) {
+                            OperationAttribute::class => $attribute->id <=> $attribute2->id,
+                            ResponseAttribute::class => $attribute->statusCode <=> $attribute2->statusCode,
+                            default => throw new UnimplementedException(),
+                        };
+                    }
+                )
+            );
+
             /** @var OperationAttribute|null $operationAttribute */
             $operationAttribute = $route->actionAttributes
                 ->first(static fn (object $attribute) => $attribute instanceof OperationAttribute);

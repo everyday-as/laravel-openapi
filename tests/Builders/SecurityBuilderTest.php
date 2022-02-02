@@ -168,6 +168,14 @@ class SecurityBuilderTest extends TestCase
              */
             new AttributesOperation(security: ''),
         ]);
+        $routeInfo->controllerAttributes = collect([
+            /**
+             * we can set secuity to null to turn it off, as
+             * that's the default value. So '' is next best
+             * option?
+             */
+            new AttributesOperation(security: ''),
+        ]);
 
         /** @var OperationsBuilder */
         $operationsBuilder = resolve(OperationsBuilder::class);

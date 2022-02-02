@@ -77,13 +77,13 @@ class PathsBuilder
             ->filter(static fn (Route $route) => $route->getActionName() !== 'Closure')
             ->map(static fn (Route $route) => RouteInformation::createFromRoute($route))
             ->filter(static function (RouteInformation $route) {
-                $pathItem = $route->controllerAttributes
-                    ->first(static fn (object $attribute) => $attribute instanceof Attributes\PathItem);
+                $containsPathItem = $route->controllerAttributes
+                    ->contains(static fn (object $attribute) => $attribute instanceof Attributes\PathItem);
 
-                $operation = $route->actionAttributes
-                    ->first(static fn (object $attribute) => $attribute instanceof Attributes\Operation);
+                $containsOperation = $route->actionAttributes
+                    ->contains(static fn (object $attribute) => $attribute instanceof Attributes\Operation);
 
-                return $pathItem && $operation;
+                return $containsPathItem && $containsOperation;
             });
     }
 }
