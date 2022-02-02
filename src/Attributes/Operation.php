@@ -26,10 +26,10 @@ class Operation
      *
      * @throws InvalidArgumentException
      */
-    public function __construct(string $id = null, array $tags = [], string $security = null, string $method = null)
+    public function __construct(string $id = null, array|string $tags = [], string $security = null, string $method = null)
     {
         $this->id = $id;
-        $this->tags = $tags;
+        $this->tags = (array)$tags;
         $this->method = $method;
 
         if ($security === '') {
