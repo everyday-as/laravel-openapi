@@ -14,7 +14,11 @@ class TagsBuilder
     public function build(array $config): array
     {
         return collect($config)
-            ->map(static function (array $tag) {
+            ->map(static function (array|Tag $tag) {
+                if ($tag instanceof Tag) {
+                    return $tag;
+                }
+
                 return Tag::create()
                     ->name($tag['name'])
                     ->description(Arr::get($tag, 'description'));
