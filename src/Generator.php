@@ -16,46 +16,37 @@ class Generator
 
     public const COLLECTION_DEFAULT = 'default';
 
-    protected array $config;
-    protected InfoBuilder $infoBuilder;
-    protected ServersBuilder $serversBuilder;
-    protected TagsBuilder $tagsBuilder;
-    protected PathsBuilder $pathsBuilder;
-    protected ComponentsBuilder $componentsBuilder;
-
     public function __construct(
-        array $config,
-        InfoBuilder $infoBuilder,
-        ServersBuilder $serversBuilder,
-        TagsBuilder $tagsBuilder,
-        PathsBuilder $pathsBuilder,
-        ComponentsBuilder $componentsBuilder
-    ) {
-        $this->config = $config;
-        $this->infoBuilder = $infoBuilder;
-        $this->serversBuilder = $serversBuilder;
-        $this->tagsBuilder = $tagsBuilder;
-        $this->pathsBuilder = $pathsBuilder;
-        $this->componentsBuilder = $componentsBuilder;
+        protected array             $config,
+        protected InfoBuilder       $infoBuilder,
+        protected ServersBuilder    $serversBuilder,
+        protected TagsBuilder       $tagsBuilder,
+        protected PathsBuilder      $pathsBuilder,
+        protected ComponentsBuilder $componentsBuilder
+    )
+    {
     }
 
     public function generate(string $collection = self::COLLECTION_DEFAULT): OpenApi
     {
-        $middlewares = Arr::get($this->config, 'collections.'.$collection.'.middlewares');
+        $middlewares = Arr::get($this->config, 'collections.' . $collection . '.middlewares');
 
-        $info = $this->infoBuilder->build(Arr::get($this->config, 'collections.'.$collection.'.info', []));
-        $servers = $this->serversBuilder->build(Arr::get($this->config, 'collections.'.$collection.'.servers', []));
-        $tags = $this->tagsBuilder->build(Arr::get($this->config, 'collections.'.$collection.'.tags', []));
+        $info = $this->infoBuilder->build(Arr::get($this->config, 'collections.' . $collection . '.info', []));
+        $servers = $this->serversBuilder->build(Arr::get($this->config, 'collections.' . $collection . '.servers', []));
+        $tags = $this->tagsBuilder->build(Arr::get($this->config, 'collections.' . $collection . '.tags', []));
         $paths = $this->pathsBuilder->build($collection, Arr::get($middlewares, 'paths', []));
         $components = $this->componentsBuilder->build($collection, Arr::get($middlewares, 'components', []));
+        $x = collect(Arr::get($this->config, 'collections.' . $collection . '.x', []));
 
-        return OpenApi::create()
+        return transform(OpenApi::create()
             ->openapi(OpenApi::OPENAPI_3_0_2)
             ->info($info)
             ->servers(...$servers)
             ->paths(...$paths)
             ->components($components)
-            ->security(...Arr::get($this->config, 'collections.'.$collection.'.security', []))
-            ->tags(...$tags);
+            ->security(...Arr::get($this->config, 'collections.' . $collection . '.security', []))
+            ->tags(...$tags),
+            static fn($schema) => $x->reduce(static fn($schema, $value, $key) => $schema->x($key, $value), $schema),
+        );
     }
 }
