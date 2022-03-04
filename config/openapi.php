@@ -64,6 +64,10 @@ return [
             app_path('OpenApi/Callbacks'),
         ],
 
+        'headers' => [
+            app_path('OpenApi/Headers'),
+        ],
+
         'request_bodies' => [
             app_path('OpenApi/RequestBodies'),
         ],

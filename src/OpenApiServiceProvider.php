@@ -8,6 +8,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
 use Vyuldashev\LaravelOpenApi\Builders\Components\CallbacksBuilder;
+use Vyuldashev\LaravelOpenApi\Builders\Components\HeadersBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\Components\RequestBodiesBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\Components\ResponsesBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\Components\SchemasBuilder;
@@ -29,6 +30,10 @@ class OpenApiServiceProvider extends ServiceProvider
 
         $this->app->bind(CallbacksBuilder::class, function () {
             return new CallbacksBuilder($this->getPathsFromConfig('callbacks'));
+        });
+
+        $this->app->bind(HeadersBuilder::class, function () {
+            return new HeadersBuilder($this->getPathsFromConfig('headers'));
         });
 
         $this->app->bind(RequestBodiesBuilder::class, function () {

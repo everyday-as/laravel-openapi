@@ -11,7 +11,7 @@ class ResponsesBuilder
 {
     public function build(RouteInformation $route, string $collection): array
     {
-        $globalHeaders = config("collections.$collection.global_headers", []);
+        $globalHeaders = config("openapi.collections.$collection.global_headers", []);
 
         return $route->actionAttributes
             ->filter(static fn (object $attribute) => $attribute instanceof ResponseAttribute)

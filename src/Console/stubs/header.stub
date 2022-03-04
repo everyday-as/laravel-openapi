@@ -1,0 +1,14 @@
+<?php
+
+namespace DummyNamespace;
+
+use GoldSpecDigital\ObjectOrientedOAS\Objects\Header;
+use Vyuldashev\LaravelOpenApi\Factories\HeaderFactory;
+
+class DummyClass extends HeaderFactory
+{
+    public function build(): Header
+    {
+        return Header::create('DummyHeader');
+    }
+}

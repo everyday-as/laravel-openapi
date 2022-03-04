@@ -30,12 +30,8 @@ abstract class Builder
                 $reflectionClass = new ReflectionClass($class);
                 $collectionAttributes = $reflectionClass->getAttributes(CollectionAttribute::class);
 
-                if (count($collectionAttributes) === 0 && $collection === Generator::COLLECTION_DEFAULT) {
-                    return true;
-                }
-
-                if (count($collectionAttributes) === 0) {
-                    return false;
+                if (empty($collectionAttributes)) {
+                    return $collection === Generator::COLLECTION_DEFAULT;
                 }
 
                 /** @var CollectionAttribute $collectionAttribute */

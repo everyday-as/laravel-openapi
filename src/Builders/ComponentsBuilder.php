@@ -4,6 +4,7 @@ namespace Vyuldashev\LaravelOpenApi\Builders;
 
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Components;
 use Vyuldashev\LaravelOpenApi\Builders\Components\CallbacksBuilder;
+use Vyuldashev\LaravelOpenApi\Builders\Components\HeadersBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\Components\RequestBodiesBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\Components\ResponsesBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\Components\SchemasBuilder;
@@ -12,31 +13,24 @@ use Vyuldashev\LaravelOpenApi\Generator;
 
 class ComponentsBuilder
 {
-    protected CallbacksBuilder $callbacksBuilder;
-    protected RequestBodiesBuilder $requestBodiesBuilder;
-    protected ResponsesBuilder $responsesBuilder;
-    protected SchemasBuilder $schemasBuilder;
-    protected SecuritySchemesBuilder $securitySchemesBuilder;
-
     public function __construct(
-        CallbacksBuilder $callbacksBuilder,
-        RequestBodiesBuilder $requestBodiesBuilder,
-        ResponsesBuilder $responsesBuilder,
-        SchemasBuilder $schemasBuilder,
-        SecuritySchemesBuilder $securitySchemesBuilder
-    ) {
-        $this->callbacksBuilder = $callbacksBuilder;
-        $this->requestBodiesBuilder = $requestBodiesBuilder;
-        $this->responsesBuilder = $responsesBuilder;
-        $this->schemasBuilder = $schemasBuilder;
-        $this->securitySchemesBuilder = $securitySchemesBuilder;
+        protected CallbacksBuilder $callbacksBuilder,
+        protected HeadersBuilder $headersBuilder,
+        protected RequestBodiesBuilder $requestBodiesBuilder,
+        protected ResponsesBuilder $responsesBuilder,
+        protected SchemasBuilder $schemasBuilder,
+        protected SecuritySchemesBuilder $securitySchemesBuilder
+    )
+    {
     }
 
     public function build(
         string $collection = Generator::COLLECTION_DEFAULT,
         array $middlewares = []
-    ): ?Components {
+    ): ?Components
+    {
         $callbacks = $this->callbacksBuilder->build($collection);
+        $headers = $this->headersBuilder->build($collection);
         $requestBodies = $this->requestBodiesBuilder->build($collection);
         $responses = $this->responsesBuilder->build($collection);
         $schemas = $this->schemasBuilder->build($collection);
@@ -46,34 +40,37 @@ class ComponentsBuilder
 
         $hasAnyObjects = false;
 
-        if (count($callbacks) > 0) {
+        if (!empty($callbacks)) {
             $hasAnyObjects = true;
-
             $components = $components->callbacks(...$callbacks);
         }
 
-        if (count($requestBodies) > 0) {
+        if (!empty($headers)) {
             $hasAnyObjects = true;
+            $components = $components->headers(...$headers);
+        }
 
+        if (!empty($requestBodies)) {
+            $hasAnyObjects = true;
             $components = $components->requestBodies(...$requestBodies);
         }
 
-        if (count($responses) > 0) {
+        if (!empty($responses)) {
             $hasAnyObjects = true;
             $components = $components->responses(...$responses);
         }
 
-        if (count($schemas) > 0) {
+        if (!empty($schemas)) {
             $hasAnyObjects = true;
             $components = $components->schemas(...$schemas);
         }
 
-        if (count($securitySchemes) > 0) {
+        if (!empty($securitySchemes)) {
             $hasAnyObjects = true;
             $components = $components->securitySchemes(...$securitySchemes);
         }
 
-        if (! $hasAnyObjects) {
+        if (!$hasAnyObjects) {
             return null;
         }
 
