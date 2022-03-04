@@ -11,6 +11,15 @@ class HeaderFactoryMakeCommand extends GeneratorCommand
     protected $description = 'Create a new Header factory class';
     protected $type = 'Header';
 
+    protected function buildClass($name)
+    {
+        return str_replace(
+            'DummyHeader',
+            Str::replaceLast('Header', '', class_basename($name)),
+            parent::buildClass($name)
+        );
+    }
+
     protected function getStub(): string
     {
         return __DIR__.'/stubs/header.stub';
