@@ -34,6 +34,9 @@ return [
                 // GoldSpecDigital\ObjectOrientedOAS\Objects\SecurityRequirement::create()->securityScheme('JWT'),
             ],
 
+            // Headers to be applied to every response
+            'global_headers' => [],
+
             // Route for exposing specification.
             // Leave uri null to disable.
             'route' => [

@@ -2,6 +2,7 @@
 
 namespace Vyuldashev\LaravelOpenApi\Builders\Components;
 
+use Illuminate\Support\Arr;
 use Vyuldashev\LaravelOpenApi\Contracts\Reusable;
 use Vyuldashev\LaravelOpenApi\Factories\ResponseFactory;
 use Vyuldashev\LaravelOpenApi\Generator;
@@ -16,11 +17,16 @@ class ResponsesBuilder extends Builder
                     is_a($class, ResponseFactory::class, true) &&
                     is_a($class, Reusable::class, true);
             })
-            ->map(static function ($class) {
+            ->map(function ($class) use ($collection) {
                 /** @var ResponseFactory $instance */
                 $instance = app($class);
 
-                return $instance->build();
+                $globalHeaders = Arr::get(config('openapi'), 'collections.' . $collection . '.global_headers', []);
+
+                return optional(
+                        $globalHeaders,
+                        static fn(array $h) => $instance->build()->headers(...$h)
+                    ) ?? $instance->build();
             })
             ->values()
             ->toArray();
