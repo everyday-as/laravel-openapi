@@ -78,6 +78,7 @@ class OpenApiServiceProvider extends ServiceProvider
                 Console\ResponseFactoryMakeCommand::class,
                 Console\SchemaFactoryMakeCommand::class,
                 Console\SecuritySchemeFactoryMakeCommand::class,
+                Console\HeaderFactoryMakeCommand::class,
             ]);
         }
     }
