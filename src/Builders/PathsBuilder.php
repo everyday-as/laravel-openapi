@@ -52,10 +52,10 @@ class PathsBuilder
                 return $item;
             })
             ->groupBy(static fn (RouteInformation $routeInformation) => $routeInformation->uri)
-            ->map(function (Collection $routes, $uri) {
+            ->map(function (Collection $routes, $uri) use ($collection) {
                 $pathItem = PathItem::create()->route($uri);
 
-                $operations = $this->operationsBuilder->build($routes);
+                $operations = $this->operationsBuilder->build($routes, $collection);
 
                 return $pathItem->operations(...$operations);
             })

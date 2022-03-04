@@ -48,7 +48,7 @@ class OperationsBuilder
      *
      * @throws InvalidArgumentException
      */
-    public function build(array|Collection $routes): array
+    public function build(array|Collection $routes, string $collection): array
     {
         $operations = [];
 
@@ -80,7 +80,7 @@ class OperationsBuilder
 
             $parameters = $this->parametersBuilder->build($route);
             $requestBody = $this->requestBodyBuilder->build($route);
-            $responses = $this->responsesBuilder->build($route);
+            $responses = $this->responsesBuilder->build($route, $collection);
             $callbacks = $this->callbacksBuilder->build($route);
             $security = $this->securityBuilder->build($route);
 
