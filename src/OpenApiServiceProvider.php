@@ -73,12 +73,12 @@ class OpenApiServiceProvider extends ServiceProvider
             $this->commands([
                 Console\CallbackFactoryMakeCommand::class,
                 Console\ExtensionFactoryMakeCommand::class,
+                Console\HeaderFactoryMakeCommand::class,
                 Console\ParametersFactoryMakeCommand::class,
                 Console\RequestBodyFactoryMakeCommand::class,
                 Console\ResponseFactoryMakeCommand::class,
                 Console\SchemaFactoryMakeCommand::class,
                 Console\SecuritySchemeFactoryMakeCommand::class,
-                Console\HeaderFactoryMakeCommand::class,
             ]);
         }
     }
