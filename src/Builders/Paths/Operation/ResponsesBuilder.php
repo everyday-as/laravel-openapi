@@ -23,7 +23,7 @@ class ResponsesBuilder
                     return Response::ref('#/components/responses/'.$response->objectId)
                         ->statusCode($attribute->statusCode)
                         ->description($attribute->description)
-                        ->headers(...$globalHeaders);
+                        ->headers(...$globalHeaders, ...$response->headers ?? []);
                 }
 
                 return $response;
