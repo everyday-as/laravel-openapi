@@ -22,11 +22,10 @@ class ResponsesBuilder
                 if ($factory instanceof Reusable) {
                     return Response::ref('#/components/responses/'.$response->objectId)
                         ->statusCode($attribute->statusCode)
-                        ->description($attribute->description)
-                        ->headers(...$globalHeaders, ...$response->headers ?? []);
+                        ->description($attribute->description);
                 }
 
-                return $response;
+                return $response->headers(...$globalHeaders, ...$response->headers ?? []);
             })
             ->values()
             ->toArray();
