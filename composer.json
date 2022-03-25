@@ -22,7 +22,7 @@
         "php": "^8.0",
         "ext-json": "*",
         "doctrine/dbal": "^2.6|^3.0",
-        "goldspecdigital/oooas": "^2.7.1",
+        "goldspecdigital/oooas": "dev-master#2a71e4d",
         "laravel/framework": "5.8.*|^6.0|^7.0|^8.0|^9.0",
         "phpdocumentor/reflection-docblock": "^5.0"
     },
@@ -52,5 +52,11 @@
         }
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/J0sh0nat0r/oooas"
+        }
+    ]
 }
