@@ -180,7 +180,7 @@ class SecurityBuilderTest extends TestCase
         /** @var OperationsBuilder */
         $operationsBuilder = resolve(OperationsBuilder::class);
 
-        $operations = $operationsBuilder->build([$routeInfo]);
+        $operations = $operationsBuilder->build([$routeInfo], 'default');
 
         $openApi = OpenApi::create()
         ->security($globalRequirement)
