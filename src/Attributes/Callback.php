@@ -4,10 +4,11 @@ namespace Vyuldashev\LaravelOpenApi\Attributes;
 
 use Attribute;
 use InvalidArgumentException;
+use Vyuldashev\LaravelOpenApi\Contracts\OpenApiAttribute;
 use Vyuldashev\LaravelOpenApi\Factories\CallbackFactory;
 
 #[Attribute]
-class Callback
+class Callback implements OpenApiAttribute
 {
     public string $factory;
 

@@ -4,10 +4,11 @@ namespace Vyuldashev\LaravelOpenApi\Attributes;
 
 use Attribute;
 use InvalidArgumentException;
+use Vyuldashev\LaravelOpenApi\Contracts\OpenApiAttribute;
 use Vyuldashev\LaravelOpenApi\Factories\ParametersFactory;
 
 #[Attribute(Attribute::TARGET_METHOD)]
-class Parameters
+class Parameters implements OpenApiAttribute
 {
     public string $factory;
 

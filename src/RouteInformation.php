@@ -14,6 +14,7 @@ use ReflectionAttribute;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionParameter;
+use Vyuldashev\LaravelOpenApi\Contracts\OpenApiAttribute;
 
 class RouteInformation
 {
@@ -64,7 +65,7 @@ class RouteInformation
             preg_match_all('/{(.*?)}/', $route->uri, $parameters);
             $parameters = collect($parameters[1]);
 
-            if (count($parameters) > 0) {
+            if ($parameters->isNotEmpty()) {
                 $parameters = $parameters->map(static fn ($parameter) => [
                     'name' => Str::replaceLast('?', '', $parameter),
                     'required' => ! Str::endsWith($parameter, '?'),
@@ -78,9 +79,11 @@ class RouteInformation
             $docBlock = $docComment ? DocBlockFactory::createInstance()->create($docComment) : null;
 
             $controllerAttributes = collect($reflectionClass->getAttributes())
+                ->filter(fn() => in_array(OpenApiAttribute::class, class_implements($reflectionClass->getName()), true))
                 ->map(fn (ReflectionAttribute $attribute) => $attribute->newInstance());
 
             $actionAttributes = collect($reflectionMethod->getAttributes())
+                ->filter(fn() => in_array(OpenApiAttribute::class, class_implements($reflectionClass->getName()), true))
                 ->map(fn (ReflectionAttribute $attribute) => $attribute->newInstance());
 
             $instance->domain = $route->domain();

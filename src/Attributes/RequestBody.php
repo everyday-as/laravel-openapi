@@ -4,10 +4,11 @@ namespace Vyuldashev\LaravelOpenApi\Attributes;
 
 use Attribute;
 use InvalidArgumentException;
+use Vyuldashev\LaravelOpenApi\Contracts\OpenApiAttribute;
 use Vyuldashev\LaravelOpenApi\Factories\RequestBodyFactory;
 
 #[Attribute(Attribute::TARGET_METHOD)]
-class RequestBody
+class RequestBody implements OpenApiAttribute
 {
     public string $factory;
 
