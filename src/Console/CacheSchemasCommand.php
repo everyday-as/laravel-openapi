@@ -48,9 +48,8 @@ class CacheSchemasCommand extends Command
     }
 
     protected function getSchemas(): array {
-        return array_map(
-            static fn($_, $collection) => $this->generator->generate($collection),
-            config('openapi.collections')
-        );
+        return collect(config('openapi.collections'))
+            ->map(fn($_, $collection) => $this->generator->generate($collection))
+            ->all();
     }
 }
