@@ -7,10 +7,21 @@ use Vyuldashev\LaravelOpenApi\Generator;
 
 class OpenApiController
 {
-    public function __construct(protected Generator $generator) {}
+    protected ?array $cachedSchemas = null;
+
+    public function __construct(protected Generator $generator)
+    {
+        if ($generator->schemasAreCached()) {
+            $this->cachedSchemas = require $generator->getCachedSchemasPath();
+        }
+    }
 
     public function show(string $collection): OpenApi
     {
-        return $generator->generate($collection);
+        if ($this->cachedSchemas !== null) {
+            return $this->cachedSchemas[$collection];
+        }
+
+        return $this->generator->generate($collection);
     }
 }
