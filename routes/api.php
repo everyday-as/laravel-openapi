@@ -14,6 +14,7 @@ Route::group(['as' => 'openapi.'], function () {
 
         Route::get($uri, [OpenApiController::class, 'show'])
             ->name($name.'.specification')
-            ->middleware(Arr::get($config, 'route.middleware'));
+            ->middleware(Arr::get($config, 'route.middleware'))
+            ->defaults('collection', $name);
     }
 });
