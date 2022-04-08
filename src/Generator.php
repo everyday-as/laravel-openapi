@@ -63,7 +63,7 @@ class Generator
     public function getCachedSchemasPath(): string
     {
         if (is_null($env = Env::get('OPENAPI_SCHEMAS_CACHE'))) {
-            return app()->bootstrapPath('openapi.php');
+            return app()->bootstrapPath('cache/openapi-schemas.php');
         }
 
         return Str::startsWith($env, ['/', '\\'])
