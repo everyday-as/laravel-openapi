@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace Vyuldashev\LaravelOpenApi\Console;
 
 use Illuminate\Console\Command;
-use League\Flysystem\Filesystem;
-use League\Flysystem\FilesystemException;
+use Illuminate\Filesystem\Filesystem;
 use Vyuldashev\LaravelOpenApi\Generator;
 
 class ClearSchemasCommand extends Command
@@ -19,9 +18,6 @@ class ClearSchemasCommand extends Command
         parent::__construct();
     }
 
-    /**
-     * @throws FilesystemException
-     */
     public function handle(): void
     {
         $this->files->delete($this->generator->getCachedSchemasPath());
