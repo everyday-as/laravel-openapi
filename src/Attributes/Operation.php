@@ -4,11 +4,10 @@ namespace Vyuldashev\LaravelOpenApi\Attributes;
 
 use Attribute;
 use InvalidArgumentException;
-use Vyuldashev\LaravelOpenApi\Contracts\OpenApiAttribute;
 use Vyuldashev\LaravelOpenApi\Factories\SecuritySchemeFactory;
 
 #[Attribute(Attribute::TARGET_METHOD)]
-class Operation implements OpenApiAttribute
+class Operation
 {
     public ?string $id;
 
@@ -19,19 +18,22 @@ class Operation implements OpenApiAttribute
 
     public ?string $method;
 
+    public ?array $servers;
+
     /**
      * @param  string|null  $id
-     * @param  array  $tags
+     * @param  array|string  $tags
      * @param  \Vyuldashev\LaravelOpenApi\Factories\SecuritySchemeFactory|string|null  $security
      * @param  string|null  $method
      *
      * @throws InvalidArgumentException
      */
-    public function __construct(string $id = null, array|string $tags = [], string $security = null, string $method = null)
+    public function __construct(string $id = null, array|string $tags = [], string $security = null, string $method = null, array $servers = null)
     {
         $this->id = $id;
         $this->tags = (array)$tags;
         $this->method = $method;
+        $this->servers = $servers;
 
         if ($security === '') {
             //user wants to turn off security on this operation

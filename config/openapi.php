@@ -37,6 +37,18 @@ return [
             // Headers to be applied to every response
             'global_headers' => [],
 
+            // Non standard attributes used by code/doc generation tools can be added here
+            'extensions' => [
+                // 'x-tagGroups' => [
+                //     [
+                //         'name' => 'General',
+                //         'tags' => [
+                //             'user',
+                //         ],
+                //     ],
+                // ],
+            ],
+
             // Route for exposing specification.
             // Leave uri null to disable.
             'route' => [

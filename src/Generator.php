@@ -38,18 +38,22 @@ class Generator
         $tags = $this->tagsBuilder->build(Arr::get($this->config, 'collections.' . $collection . '.tags', []));
         $paths = $this->pathsBuilder->build($collection, Arr::get($middlewares, 'paths', []));
         $components = $this->componentsBuilder->build($collection, Arr::get($middlewares, 'components', []));
-        $x = collect(Arr::get($this->config, 'collections.' . $collection . '.x', []));
+        $extensions = Arr::get($this->config, 'collections.' . $collection . '.extensions', []);
 
-        return transform(OpenApi::create()
+        $openApi = OpenApi::create()
             ->openapi(OpenApi::OPENAPI_3_0_2)
             ->info($info)
             ->servers(...$servers)
             ->paths(...$paths)
             ->components($components)
-            ->security(...Arr::get($this->config, 'collections.' . $collection . '.security', []))
-            ->tags(...$tags),
-            static fn($schema) => $x->reduce(static fn($schema, $value, $key) => $schema->x($key, $value), $schema),
-        );
+            ->security(...Arr::get($this->config, 'collections.'.$collection.'.security', []))
+            ->tags(...$tags);
+
+        foreach ($extensions as $key => $value) {
+            $openApi = $openApi->x($key, $value);
+        }
+
+        return $openApi;
     }
 
     public function schemasAreCached(): bool
