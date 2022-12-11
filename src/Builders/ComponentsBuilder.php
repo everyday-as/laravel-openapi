@@ -75,7 +75,7 @@ class ComponentsBuilder
         }
 
         foreach ($middlewares as $middleware) {
-            app($middleware)->after($components);
+            $components = app($middleware)->after($components);
         }
 
         return $components;
