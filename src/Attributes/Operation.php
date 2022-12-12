@@ -4,10 +4,11 @@ namespace Vyuldashev\LaravelOpenApi\Attributes;
 
 use Attribute;
 use InvalidArgumentException;
+use Vyuldashev\LaravelOpenApi\Contracts\OpenApiAttribute;
 use Vyuldashev\LaravelOpenApi\Factories\SecuritySchemeFactory;
 
 #[Attribute(Attribute::TARGET_METHOD)]
-class Operation
+class Operation implements OpenApiAttribute
 {
     public ?string $id;
 
