@@ -93,14 +93,14 @@ class RouteInformation
                 ->map(fn(ReflectionAttribute $attribute) => $attribute->newInstance());
 
 
-            $containsControllerLevelParamter = $actionAttributes->contains(fn ($value) => $value instanceof \Vyuldashev\LaravelOpenApi\Attributes\Parameters);
+            $containsControllerLevelParameter = $controllerAttributes->contains(fn ($value) => $value instanceof \Vyuldashev\LaravelOpenApi\Attributes\Parameters);
 
             $instance->domain = $route->domain();
             $instance->method = $method;
             $instance->uri = Str::start($route->uri(), '/');
             $instance->name = $route->getName();
             $instance->controller = $controller;
-            $instance->parameters = $containsControllerLevelParamter ? collect([]) : $parameters;
+            $instance->parameters = $containsControllerLevelParameter ? collect([]) : $parameters;
             $instance->controllerAttributes = $controllerAttributes;
             $instance->action = $action;
             $instance->actionParameters = $reflectionMethod->getParameters();
