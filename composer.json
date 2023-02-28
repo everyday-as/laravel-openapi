@@ -22,7 +22,7 @@
         "php": "^8.0",
         "ext-json": "*",
         "doctrine/dbal": "^2.6|^3.0",
-        "goldspecdigital/oooas": "dev-fix/additional-properties-bool#1a85b6c",
+        "goldspecdigital/oooas": "dev-feat/oas-3.1#a8cd414",
         "laravel/framework": "5.8.*|^6.0|^7.0|^8.0|^9.0|^10.0",
         "phpdocumentor/reflection-docblock": "^5.0"
     },
