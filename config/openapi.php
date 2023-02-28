@@ -1,10 +1,13 @@
 <?php
 
+use GoldSpecDigital\ObjectOrientedOAS\OpenApi;
+
 return [
 
     'collections' => [
 
         'default' => [
+            'spec_version' => OpenApi::OPENAPI_3_0_2,
 
             'info' => [
                 'title' => config('app.name'),

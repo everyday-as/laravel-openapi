@@ -33,6 +33,7 @@ class Generator
     {
         $middlewares = Arr::get($this->config, 'collections.' . $collection . '.middlewares');
 
+        $specVersion = Arr::get($this->config, 'collections.' . $collection . '.spec_version', OpenApi::OPENAPI_3_0_2);
         $info = $this->infoBuilder->build(Arr::get($this->config, 'collections.' . $collection . '.info', []));
         $servers = $this->serversBuilder->build(Arr::get($this->config, 'collections.' . $collection . '.servers', []));
         $tags = $this->tagsBuilder->build(Arr::get($this->config, 'collections.' . $collection . '.tags', []));
@@ -41,7 +42,7 @@ class Generator
         $extensions = Arr::get($this->config, 'collections.' . $collection . '.extensions', []);
 
         $openApi = OpenApi::create()
-            ->openapi(OpenApi::OPENAPI_3_0_2)
+            ->openapi($specVersion)
             ->info($info)
             ->servers(...$servers)
             ->paths(...$paths)
