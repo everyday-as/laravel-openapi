@@ -8,7 +8,7 @@ use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Throwable;
-use Vyuldashev\LaravelOpenApi\Generator;
+use Vyuldashev\LaravelOpenApi\Contracts\Generator;
 
 class CacheSchemasCommand extends Command
 {
@@ -47,7 +47,8 @@ class CacheSchemasCommand extends Command
         $this->info('Schema(s) cached successfully.');
     }
 
-    protected function getSchemas(): array {
+    protected function getSchemas(): array
+    {
         return collect(config('openapi.collections'))
             ->map(fn($_, $collection) => $this->generator->generate($collection))
             ->all();

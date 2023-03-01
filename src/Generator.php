@@ -12,11 +12,9 @@ use Vyuldashev\LaravelOpenApi\Builders\PathsBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\ServersBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\TagsBuilder;
 
-class Generator
+class Generator implements Contracts\Generator
 {
     public string $version = OpenApi::OPENAPI_3_0_2;
-
-    public const COLLECTION_DEFAULT = 'default';
 
     public function __construct(
         protected array             $config,

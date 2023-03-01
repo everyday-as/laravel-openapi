@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Vyuldashev\LaravelOpenApi\Console;
 
 use Illuminate\Console\Command;
-use Vyuldashev\LaravelOpenApi\Generator;
+use Vyuldashev\LaravelOpenApi\Contracts\Generator;
 
 class GenerateCommand extends Command
 {
